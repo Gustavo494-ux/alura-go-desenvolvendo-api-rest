@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/Gustavo494-ux/go-api-rest/models"
+	"github.com/gorilla/mux"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -13,10 +15,16 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func TodasPersonalidades(w http.ResponseWriter, r *http.Request) {
-	// models.Personalidade = []models.Personalidade{
-	// 	{Nome: "Nome 1", Historia: "Historia 1"},
-	// 	{Nome: "Nome 2", Historia: "Historia 2"},
-	// }
-
 	json.NewEncoder(w).Encode(models.Personalidades)
+}
+
+func RetornarUmaPersonalidade(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	for _, personalidade := range models.Personalidades {
+		if strconv.Itoa(personalidade.Id) == id {
+			json.NewEncoder(w).Encode(personalidade)
+		}
+	}
 }
