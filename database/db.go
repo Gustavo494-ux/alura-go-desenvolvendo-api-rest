@@ -4,18 +4,19 @@ import (
 	"log"
 
 	"gorm.io/driver/postgres"
+	_ "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-var (
-	DB  *gorm.DB
-	err error
-)
+func ConectaComBancoDeDados() (*gorm.DB, error) {
+	// Configurar informações de conexão
+	stringConexao := "host=localhost user=root password=root dbname=root port=5433 sslmode=disable"
 
-func ConectaComBancoDeDados() {
-	StringDeConexao := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable"
-	DB, err = gorm.Open(postgres.Open(StringDeConexao), &gorm.Config{})
+	// Conectar ao banco de dados PostgreSQL
+	db, err := gorm.Open(postgres.Open(stringConexao), &gorm.Config{})
 	if err != nil {
 		log.Panic("Erro ao conectar com o banco de dados", err)
 	}
+
+	return db, nil
 }
