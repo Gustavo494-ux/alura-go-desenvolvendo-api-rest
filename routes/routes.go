@@ -5,11 +5,14 @@ import (
 	"net/http"
 
 	"github.com/Gustavo494-ux/go-api-rest/controllers"
+	"github.com/Gustavo494-ux/go-api-rest/middleware"
 	"github.com/gorilla/mux"
 )
 
 func HandleResquest() {
 	r := mux.NewRouter()
+
+	r.Use(middleware.ContentTypeMiddleware)
 
 	r.HandleFunc("/", controllers.Home)
 	r.HandleFunc("/api/personalidades", controllers.CriaUmaNovaPersonalidade).Methods("POST")
