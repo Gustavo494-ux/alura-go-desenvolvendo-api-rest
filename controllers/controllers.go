@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/Gustavo494-ux/go-api-rest/database"
@@ -29,4 +30,17 @@ func RetornarUmaPersonalidade(w http.ResponseWriter, r *http.Request) {
 
 	database.DB.First(&Personalidade, id)
 	json.NewEncoder(w).Encode(Personalidade)
+}
+
+func CriaUmaNovaPersonalidade(w http.ResponseWriter, r *http.Request) {
+	var novaPersonalidade models.Personalidade
+
+	err := json.NewDecoder(r.Body).Decode(&novaPersonalidade)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	database.DB.Create(&novaPersonalidade)
+
+	json.NewEncoder(w).Encode(novaPersonalidade)
 }
